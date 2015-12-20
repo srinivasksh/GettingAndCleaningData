@@ -16,4 +16,9 @@ github_token <- oauth2.0_token(oauth_endpoints("github"), myapp)
 gtoken <- config(token = github_token)
 req <- GET("https://api.github.com/users/jtleek/repos", gtoken)
 stop_for_status(req)
-content(req)
+r1 <- content(req)
+for (i in 1:30){
+    if (r1[[i]]$name == "repos"){
+        return(r1[[i]]$created_at)
+    }
+}
